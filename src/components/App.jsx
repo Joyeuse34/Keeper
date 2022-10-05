@@ -1,62 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import Note from "./Note";
 import CreateArea from "./CreateArea";
 
 function App() {
-  const [notes, setNotes] = React.useState([]);
-  const [noteData, setNoteData] = React.useState({
-    title: "",
-    content: ""
-  });
+  const [notes, setNotes] = useState([]);
 
-  function addNote(event) {
-    setNotes((prev) => {
-      return [...prev, noteData];
-    });
-    console.log(notes);
-
-    event.preventDefault();
-  }
-
-  function handleOnChange(event) {
-    const { value, name } = event.target;
-
-    setNoteData((prev) => {
-      return { ...prev, [name]: value };
+  function addNote(newNote) {
+    setNotes(prevNotes => {
+      return [...prevNotes, newNote];
     });
   }
-
-  const noteRender = notes.map((val, index) => {
-    return (
-      <Note
-        key={index}
-        id={index}
-        title={val.title}
-        content={val.content}
-        deleteNote={deleteNote}
-      />
-    );
-  });
 
   function deleteNote(id) {
-    setNotes(
-      notes.filter((val, index) => {
-        return id !== index;
-      })
-    );
+    setNotes(prevNotes => {
+      return prevNotes.filter((noteItem, index) => {
+        return index !== id;
+      });
+    });
   }
 
   return (
     <div>
       <Header />
-      <CreateArea
-        handleOnChange={handleOnChange}
-        noteData={noteData}
-        addNote={addNote}
-      />
-      {noteRender}
+      <CreateArea onAdd={addNote} />
+      {notes.map((noteItem, index) => {
+        return (
+          <Note
+            key={index}
+            id={index}
+            title={noteItem.title}
+            content={noteItem.content}
+            onDelete={deleteNote}
+          />
+        );
+      })}
       <Footer />
     </div>
   );
