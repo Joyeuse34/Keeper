@@ -13,14 +13,21 @@
     "uuid": "3.3.3"
   },
   "devDependencies": {
+    "gh-pages": "^6.3.0",
     "typescript": "3.3.3"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
+  "engines": {
+    "node": "16.x"
+  },
+  "homepage": "http://yourusername.github.io/Keeper-App",
   "browserslist": [
     ">0.2%",
     "not dead",
